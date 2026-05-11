@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Monarch Freight Group</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#f5f7fb;
+color:#111;
+}
+
+/* HEADER */
+
+header{
+background:#0d2340;
+padding:18px 6%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
+z-index:1000;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.logo{
+color:#fff;
+font-size:24px;
+font-weight:700;
+}
+
+.logo span{
+color:#d4a63a;
+}
+
+nav a{
+color:#fff;
+text-decoration:none;
+margin-left:22px;
+font-size:15px;
+font-weight:500;
+}
+
+/* HERO */
+
+.hero{
+width:100%;
+height:88vh;
+background:
+linear-gradient(rgba(8,18,35,0.55),rgba(8,18,35,0.7)),
+url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=1600&auto=format&fit=crop');
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:20px;
+}
+
+.hero-content{
+max-width:900px;
+}
+
+.hero h1{
+font-size:58px;
+color:#fff;
+line-height:1.2;
+margin-bottom:18px;
+}
+
+.hero p{
+color:#f1f1f1;
+font-size:18px;
+line-height:1.8;
+margin-bottom:35px;
+}
+
+.hero-btns{
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.btn{
+padding:15px 34px;
+border-radius:6px;
+text-decoration:none;
+font-weight:600;
+font-size:15px;
+transition:0.3s;
+}
+
+.btn-primary{
+background:#d4a63a;
+color:#111;
+}
+
+.btn-primary:hover{
+background:#c39428;
+}
+
+.btn-secondary{
+border:2px solid #fff;
+color:#fff;
+}
+
+.btn-secondary:hover{
+background:#fff;
+color:#111;
+}
+
+/* SERVICES */
+
+.services{
+padding:90px 6%;
+background:#fff;
+}
+
+.section-title{
+text-align:center;
+font-size:38px;
+margin-bottom:18px;
+color:#0d2340;
+}
+
+.section-sub{
+text-align:center;
+color:#666;
+margin-bottom:55px;
+}
+
+.service-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.service-card{
+background:#fff;
+border-radius:12px;
+padding:35px 28px;
+box-shadow:0 5px 25px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.service-card:hover{
+transform:translateY(-8px);
+}
+
+.service-icon{
+font-size:45px;
+margin-bottom:20px;
+}
+
+.service-card h3{
+margin-bottom:12px;
+color:#0d2340;
+}
+
+.service-card p{
+color:#666;
+line-height:1.7;
+font-size:15px;
+}
+
+/* TRACKING */
+
+.tracking{
+background:#0d2340;
+padding:90px 6%;
+text-align:center;
+}
+
+.tracking h2{
+color:#fff;
+font-size:40px;
+margin-bottom:20px;
+}
+
+.tracking p{
+color:#d8d8d8;
+margin-bottom:35px;
+}
+
+.track-box{
+max-width:700px;
+margin:auto;
+display:flex;
+background:#fff;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 5px 25px rgba(0,0,0,0.2);
+}
+
+.track-box input{
+flex:1;
+padding:20px;
+border:none;
+font-size:16px;
+outline:none;
+}
+
+.track-box button{
+background:#d4a63a;
+color:#111;
+border:none;
+padding:0 35px;
+font-weight:700;
+cursor:pointer;
+}
+
+/* STATS */
+
+.stats{
+padding:70px 6%;
+background:#f7f9fc;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:25px;
+text-align:center;
+}
+
+.stat-card{
+background:#fff;
+padding:40px 20px;
+border-radius:12px;
+box-shadow:0 4px 20px rgba(0,0,0,0.06);
+}
+
+.stat-card h2{
+font-size:40px;
+color:#d4a63a;
+margin-bottom:10px;
+}
+
+.stat-card p{
+color:#666;
+}
+
+/* ABOUT */
+
+.about{
+padding:90px 6%;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:40px;
+align-items:center;
+background:#fff;
+}
+
+.about img{
+width:100%;
+border-radius:12px;
+box-shadow:0 5px 25px rgba(0,0,0,0.1);
+}
+
+.about-text h2{
+font-size:42px;
+margin-bottom:20px;
+color:#0d2340;
+}
+
+.about-text p{
+line-height:1.9;
+color:#555;
+margin-bottom:18px;
+}
+
+/* FOOTER */
+
+footer{
+background:#071426;
+padding:50px 6%;
+color:#fff;
+}
+
+.footer-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:35px;
+}
+
+.footer-grid h3{
+margin-bottom:15px;
+color:#d4a63a;
+}
+
+.footer-grid p,
+.footer-grid a{
+color:#d1d1d1;
+text-decoration:none;
+line-height:2;
+font-size:15px;
+}
+
+.copy{
+text-align:center;
+margin-top:40px;
+border-top:1px solid rgba(255,255,255,0.1);
+padding-top:25px;
+color:#bbb;
+font-size:14px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:38px;
+}
+
+.track-box{
+flex-direction:column;
+}
+
+.track-box button{
+padding:18px;
+}
+
+nav{
+display:none;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<header>
+
+<div class="logo">
+MONARCH <span>FREIGHT</span>
+</div>
+
+<nav>
+<a href="#">Home</a>
+<a href="#services">Services</a>
+<a href="#tracking">Tracking</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+</nav>
+
+</header>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>
+Global Cargo & Express Logistics Solutions
+</h1>
+
+<p>
+Monarch Freight Group provides secure international cargo handling,
+air freight, sea freight, customs clearance, and express logistics
+services worldwide.
+</p>
+
+<div class="hero-btns">
+
+<a href="#tracking" class="btn btn-primary">
+Track Shipment
+</a>
+
+<a href="#services" class="btn btn-secondary">
+Our Services
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="services" id="services">
+
+<h2 class="section-title">
+Our Logistics Services
+</h2>
+
+<p class="section-sub">
+Reliable worldwide freight and cargo operations
+</p>
+
+<div class="service-grid">
+
+<div class="service-card">
+<div class="service-icon">✈️</div>
+<h3>Air Freight</h3>
+<p>
+Fast and secure international air cargo delivery for urgent shipments.
+</p>
+</div>
+
+<div class="service-card">
+<div class="service-icon">🚢</div>
+<h3>Sea Cargo</h3>
+<p>
+Reliable ocean freight solutions with global port coverage.
+</p>
+</div>
+
+<div class="service-card">
+<div class="service-icon">🚚</div>
+<h3>Door Delivery</h3>
+<p>
+Safe last-mile delivery directly to customer destinations.
+</p>
+</div>
+
+<div class="service-card">
+<div class="service-icon">🏢</div>
+<h3>Warehouse Storage</h3>
+<p>
+Secure cargo warehousing and inventory management solutions.
+</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="tracking" id="tracking">
+
+<h2>
+Track Your Shipment
+</h2>
+
+<p>
+Enter your shipment tracking number below
+</p>
+
+<div class="track-box">
+
+<input
+type="text"
+id="trackingInput"
+placeholder="Enter Tracking Number">
+
+<button onclick="trackNow()">
+TRACK
+</button>
+
+</div>
+
+</section>
+
+<section class="stats">
+
+<div class="stat-card">
+<h2>120+</h2>
+<p>Countries Covered</p>
+</div>
+
+<div class="stat-card">
+<h2>25K+</h2>
+<p>Successful Deliveries</p>
+</div>
+
+<div class="stat-card">
+<h2>24/7</h2>
+<p>Customer Support</p>
+</div>
+
+<div class="stat-card">
+<h2>99%</h2>
+<p>Delivery Success Rate</p>
+</div>
+
+</section>
+
+<section class="about" id="about">
+
+<img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1200&auto=format&fit=crop">
+
+<div class="about-text">
+
+<h2>
+About Monarch Freight Group
+</h2>
+
+<p>
+Monarch Freight Group is a global logistics and freight forwarding company
+providing international cargo operations, express shipping, customs clearance,
+and professional supply chain solutions.
+</p>
+
+<p>
+Our mission is to deliver secure, fast, and reliable logistics services
+for businesses and individuals worldwide.
+</p>
+
+</div>
+
+</section>
+
+<footer id="contact">
+
+<div class="footer-grid">
+
+<div>
+<h3>Company</h3>
+<p>Monarch Freight Group</p>
+<p>Global Freight & Logistics Solutions</p>
+</div>
+
+<div>
+<h3>Services</h3>
+<p>Air Freight</p>
+<p>Sea Cargo</p>
+<p>Customs Clearance</p>
+<p>Door Delivery</p>
+</div>
+
+<div>
+<h3>Support</h3>
+<p>Email: support@monarchfreight.com</p>
+<p>Phone: +1 (800) 000-0000</p>
+<p>24/7 Customer Service</p>
+</div>
+
+<div>
+<h3>Tracking</h3>
+<p>
+Real-time shipment tracking and cargo monitoring.
+</p>
+</div>
+
+</div>
+
+<div class="copy">
+© 2026 Monarch Freight Group — All Rights Reserved
+</div>
+
+</footer>
+
+<script>
+
+function trackNow(){
+
+const code =
+document.getElementById("trackingInput").value;
+
+if(!code){
+alert("Please enter tracking number");
+return;
+}
+
+window.location.href =
+"tracking.html?code=" + code;
+
+}
+
+</script>
+
+</body>
+</html>
