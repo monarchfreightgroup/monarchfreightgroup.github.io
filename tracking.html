@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Track Shipment - Monarch Freight Group</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link
+rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<script
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#f4f7fb;
+color:#111;
+}
+
+/* HEADER */
+
+header{
+background:#0d2340;
+padding:18px 6%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:24px;
+font-weight:700;
+color:#fff;
+}
+
+.logo span{
+color:#d4a63a;
+}
+
+header a{
+color:#fff;
+text-decoration:none;
+font-size:15px;
+}
+
+/* SEARCH AREA */
+
+.search-area{
+background:#102948;
+padding:70px 20px;
+text-align:center;
+}
+
+.search-area h1{
+font-size:42px;
+color:#fff;
+margin-bottom:15px;
+}
+
+.search-area p{
+color:#d9d9d9;
+margin-bottom:30px;
+}
+
+.search-box{
+max-width:700px;
+margin:auto;
+display:flex;
+background:#fff;
+border-radius:8px;
+overflow:hidden;
+}
+
+.search-box input{
+flex:1;
+padding:18px;
+font-size:16px;
+border:none;
+outline:none;
+}
+
+.search-box button{
+padding:0 35px;
+background:#d4a63a;
+border:none;
+font-weight:700;
+cursor:pointer;
+}
+
+/* RESULT */
+
+.result{
+max-width:1000px;
+margin:40px auto;
+padding:0 20px;
+display:none;
+}
+
+.card{
+background:#fff;
+border-radius:14px;
+padding:30px;
+box-shadow:0 5px 25px rgba(0,0,0,0.08);
+margin-bottom:25px;
+}
+
+.tracking-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:15px;
+margin-bottom:25px;
+}
+
+.tracking-number{
+font-size:32px;
+font-weight:700;
+color:#0d2340;
+}
+
+.status{
+background:#eaf7ed;
+color:#0e8b41;
+padding:10px 18px;
+border-radius:30px;
+font-weight:600;
+}
+
+/* PROGRESS */
+
+.progress{
+height:12px;
+background:#eee;
+border-radius:30px;
+overflow:hidden;
+margin-bottom:25px;
+}
+
+.progress-bar{
+height:100%;
+width:70%;
+background:#d4a63a;
+}
+
+/* INFO GRID */
+
+.info-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:25px;
+}
+
+.info-box{
+background:#f7f9fc;
+padding:20px;
+border-radius:10px;
+}
+
+.info-box h4{
+font-size:14px;
+color:#666;
+margin-bottom:8px;
+}
+
+.info-box p{
+font-size:16px;
+font-weight:600;
+color:#0d2340;
+}
+
+/* ETA */
+
+.eta-box{
+background:#0d2340;
+padding:25px;
+border-radius:12px;
+color:#fff;
+margin-bottom:25px;
+}
+
+.eta-box h3{
+margin-bottom:10px;
+}
+
+.countdown{
+font-size:34px;
+font-weight:700;
+color:#d4a63a;
+}
+
+/* MAP */
+
+#map{
+height:420px;
+border-radius:12px;
+margin-bottom:25px;
+}
+
+/* TIMELINE */
+
+.timeline{
+margin-top:20px;
+}
+
+.timeline-item{
+display:flex;
+gap:15px;
+margin-bottom:25px;
+}
+
+.dot{
+width:18px;
+height:18px;
+background:#d4a63a;
+border-radius:50%;
+margin-top:5px;
+}
+
+.timeline-content h4{
+color:#0d2340;
+margin-bottom:5px;
+}
+
+.timeline-content p{
+color:#666;
+line-height:1.6;
+font-size:14px;
+}
+
+/* FOOTER */
+
+footer{
+background:#071426;
+padding:40px 20px;
+text-align:center;
+color:#bbb;
+margin-top:60px;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.search-area h1{
+font-size:30px;
+}
+
+.search-box{
+flex-direction:column;
+}
+
+.search-box button{
+padding:18px;
+}
+
+.tracking-number{
+font-size:24px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+MONARCH <span>FREIGHT</span>
+</div>
+
+<a href="index.html">
+← Back Home
+</a>
+
+</header>
+
+<section class="search-area">
+
+<h1>
+Track Your Shipment
+</h1>
+
+<p>
+Enter your tracking number below
+</p>
+
+<div class="search-box">
+
+<input
+type="text"
+id="trackingInput"
+placeholder="Tracking Number">
+
+<button onclick="trackPackage()">
+TRACK
+</button>
+
+</div>
+
+</section>
+
+<section class="result" id="result">
+
+<div class="card">
+
+<div class="tracking-top">
+
+<div class="tracking-number" id="trackNum">
+MFG782245
+</div>
+
+<div class="status">
+In Transit
+</div>
+
+</div>
+
+<div class="progress">
+<div class="progress-bar"></div>
+</div>
+
+<div class="info-grid">
+
+<div class="info-box">
+<h4>FROM</h4>
+<p>Shanghai, China 🇨🇳</p>
+</div>
+
+<div class="info-box">
+<h4>TO</h4>
+<p>Pasig City, Philippines 🇵🇭</p>
+</div>
+
+<div class="info-box">
+<h4>WEIGHT</h4>
+<p>12 KG</p>
+</div>
+
+<div class="info-box">
+<h4>PARCEL TYPE</h4>
+<p>Electronics</p>
+</div>
+
+<div class="info-box">
+<h4>COURIER</h4>
+<p>Air Freight Express</p>
+</div>
+
+<div class="info-box">
+<h4>ESTIMATED DELIVERY</h4>
+<p>May 18, 2026</p>
+</div>
+
+</div>
+
+<div class="eta-box">
+
+<h3>
+Estimated Arrival Countdown
+</h3>
+
+<div class="countdown" id="countdown">
+2 Days 14 Hours
+</div>
+
+</div>
+
+<div id="map"></div>
+
+<h2 style="margin-bottom:25px;color:#0d2340;">
+Shipment Timeline
+</h2>
+
+<div class="timeline">
+
+<div class="timeline-item">
+
+<div class="dot"></div>
+
+<div class="timeline-content">
+<h4>Shipment Created</h4>
+<p>
+Package registered in Monarch Freight Group system.
+</p>
+</div>
+
+</div>
+
+<div class="timeline-item">
+
+<div class="dot"></div>
+
+<div class="timeline-content">
+<h4>Package Picked Up</h4>
+<p>
+Shipment picked up from sender warehouse in Shanghai.
+</p>
+</div>
+
+</div>
+
+<div class="timeline-item">
+
+<div class="dot"></div>
+
+<div class="timeline-content">
+<h4>Departed International Facility</h4>
+<p>
+Cargo departed export facility and is currently in transit.
+</p>
+</div>
+
+</div>
+
+<div class="timeline-item">
+
+<div class="dot"></div>
+
+<div class="timeline-content">
+<h4>Arrived Destination Country</h4>
+<p>
+Shipment arrived at destination customs facility.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+© 2026 Monarch Freight Group — Global Logistics Solutions
+</footer>
+
+<script>
+
+/* AUTO LOAD CODE */
+
+const params =
+new URLSearchParams(window.location.search);
+
+const autoCode =
+params.get("code");
+
+if(autoCode){
+
+document.getElementById("trackingInput").value =
+autoCode;
+
+trackPackage();
+
+}
+
+/* TRACK */
+
+function trackPackage(){
+
+const code =
+document.getElementById("trackingInput").value;
+
+if(!code){
+alert("Please enter tracking number");
+return;
+}
+
+document.getElementById("result").style.display =
+"block";
+
+document.getElementById("trackNum").innerHTML =
+code;
+
+/* MAP */
+
+setTimeout(()=>{
+
+if(window.mapLoaded){
+return;
+}
+
+window.mapLoaded = true;
+
+const map =
+L.map('map').setView([14.5995,120.9842],5);
+
+L.tileLayer(
+'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+{
+attribution:'© OpenStreetMap'
+}
+).addTo(map);
+
+const china =
+[31.2304,121.4737];
+
+const philippines =
+[14.5995,120.9842];
+
+L.marker(china)
+.addTo(map)
+.bindPopup("Shanghai, China");
+
+L.marker(philippines)
+.addTo(map)
+.bindPopup("Pasig City, Philippines");
+
+L.polyline(
+[china, philippines],
+{
+color:'#d4a63a',
+weight:5
+}
+).addTo(map);
+
+map.fitBounds([china, philippines]);
+
+},300);
+
+}
+
+/* ETA COUNTDOWN */
+
+const countdown =
+document.getElementById("countdown");
+
+const etaDate =
+new Date("May 18, 2026 12:00:00").getTime();
+
+setInterval(()=>{
+
+const now =
+new Date().getTime();
+
+const distance =
+etaDate - now;
+
+const days =
+Math.floor(distance / (1000*60*60*24));
+
+const hours =
+Math.floor(
+(distance % (1000*60*60*24))
+/
+(1000*60*60)
+);
+
+countdown.innerHTML =
+days + " Days " + hours + " Hours";
+
+},1000);
+
+</script>
+
+</body>
+</html>
