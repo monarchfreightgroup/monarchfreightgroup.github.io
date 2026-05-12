@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice - Monarch Freight Group</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#e7b3aa;
+padding:25px;
+}
+
+.container{
+max-width:720px;
+margin:auto;
+background:#56535f;
+border-radius:35px;
+overflow:hidden;
+box-shadow:0 20px 45px rgba(0,0,0,0.25);
+}
+
+.hero{
+height:260px;
+background:url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=1200&auto=format&fit=crop') center/cover;
+}
+
+.content{
+padding:35px;
+color:white;
+}
+
+.small{
+font-size:18px;
+opacity:0.7;
+margin-bottom:15px;
+}
+
+h1{
+font-size:58px;
+line-height:1.05;
+margin-bottom:25px;
+}
+
+.line{
+width:120px;
+height:7px;
+background:#e7b3aa;
+border-radius:50px;
+margin-bottom:30px;
+}
+
+.description{
+font-size:20px;
+line-height:1.8;
+opacity:0.9;
+margin-bottom:35px;
+}
+
+.card{
+background:#66636f;
+padding:22px;
+border-radius:22px;
+margin-bottom:22px;
+}
+
+.label{
+font-size:15px;
+text-transform:uppercase;
+opacity:0.7;
+margin-bottom:8px;
+}
+
+.value{
+font-size:24px;
+font-weight:600;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+margin-top:10px;
+}
+
+.fee{
+background:#66636f;
+padding:20px;
+border-radius:20px;
+}
+
+.fee-name{
+font-size:16px;
+opacity:0.75;
+margin-bottom:10px;
+}
+
+.fee-price{
+font-size:30px;
+font-weight:700;
+}
+
+.total{
+background:#e7b3aa;
+padding:30px;
+border-radius:25px;
+margin-top:30px;
+text-align:center;
+}
+
+.total h2{
+font-size:18px;
+margin-bottom:10px;
+color:white;
+}
+
+.total-price{
+font-size:44px;
+font-weight:700;
+color:white;
+}
+
+.status{
+margin-top:30px;
+background:#1f8f4d;
+padding:20px;
+border-radius:18px;
+text-align:center;
+font-size:22px;
+font-weight:600;
+color:white;
+}
+
+.support{
+margin-top:35px;
+font-size:17px;
+line-height:1.8;
+opacity:0.85;
+text-align:center;
+}
+
+@media(max-width:700px){
+
+h1{
+font-size:42px;
+}
+
+.description{
+font-size:18px;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.value{
+font-size:20px;
+}
+
+.total-price{
+font-size:35px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="hero"></div>
+
+<div class="content">
+
+<div class="small">
+International Freight Invoice
+</div>
+
+<h1>
+Monarch Freight Group
+</h1>
+
+<div class="line"></div>
+
+<div class="description">
+Shipment payment breakdown and logistics charges for your international cargo delivery.
+</div>
+
+<div class="card">
+<div class="label">Tracking Number</div>
+<div class="value">MFG782245</div>
+</div>
+
+<div class="card">
+<div class="label">Shipment Route</div>
+<div class="value">Shanghai, China 🇨🇳 → Illinois, USA 🇺🇸</div>
+</div>
+
+<div class="card">
+<div class="label">Receiver Address</div>
+<div class="value">16161 Key Rd, De Soto, IL 62924 USA</div>
+</div>
+
+<div class="grid">
+
+<div class="fee">
+<div class="fee-name">Delivery Fee</div>
+<div class="fee-price">$2,500</div>
+</div>
+
+<div class="fee">
+<div class="fee-name">Customs Clearance</div>
+<div class="fee-price">$1,200</div>
+</div>
+
+<div class="fee">
+<div class="fee-name">Insurance</div>
+<div class="fee-price">$850</div>
+</div>
+
+<div class="fee">
+<div class="fee-name">Warehouse Storage</div>
+<div class="fee-price">$400</div>
+</div>
+
+</div>
+
+<div class="total">
+<h2>Total Outstanding Payment</h2>
+<div class="total-price">$4,950</div>
+</div>
+
+<div class="status">
+PAYMENT PENDING
+</div>
+
+<div class="support">
+For support and shipment inquiries, contact Monarch Freight Group logistics department.
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
