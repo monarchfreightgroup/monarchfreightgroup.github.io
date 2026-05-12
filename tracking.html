@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Track Shipment - Monarch Freight Group</title>
+<title>Monarch Freight Tracking</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -17,113 +17,165 @@ box-sizing:border-box;
 
 body{
 font-family:'Poppins',sans-serif;
-background:#f5f5f5;
-padding:20px;
-color:#222;
+background:#efb7aa;
+padding:30px 15px;
+color:white;
 }
 
 .container{
-max-width:900px;
+max-width:700px;
 margin:auto;
-background:white;
-padding:25px;
-border-radius:20px;
-box-shadow:0 5px 20px rgba(0,0,0,0.1);
+background:#4d4b54;
+border-radius:25px;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,0.25);
+}
+
+.hero-image{
+width:100%;
+height:320px;
+object-fit:cover;
+display:block;
+}
+
+.content{
+padding:35px;
+}
+
+.small-text{
+font-size:15px;
+opacity:0.8;
+margin-bottom:15px;
 }
 
 h1{
-text-align:center;
+font-size:58px;
+line-height:1.05;
+font-weight:600;
 margin-bottom:20px;
-font-size:34px;
+}
+
+.line{
+width:90px;
+height:6px;
+background:#efb7aa;
+border-radius:20px;
+margin-bottom:25px;
+}
+
+.description{
+font-size:20px;
+line-height:1.8;
+opacity:0.9;
+margin-bottom:35px;
 }
 
 .search-box{
 display:flex;
 gap:10px;
-margin-bottom:30px;
+margin-bottom:25px;
 }
 
 .search-box input{
 flex:1;
-padding:15px;
-border-radius:10px;
-border:1px solid #ccc;
-font-size:16px;
+padding:20px;
+border:none;
+border-radius:14px;
+font-size:18px;
+outline:none;
 }
 
 .search-box button{
-padding:15px 25px;
+padding:20px 30px;
 border:none;
-background:#222;
+background:#efb7aa;
 color:white;
-border-radius:10px;
-font-size:16px;
+font-size:18px;
+font-weight:600;
+border-radius:14px;
 cursor:pointer;
 }
 
 .result{
 display:none;
+margin-top:30px;
+background:rgba(255,255,255,0.08);
+padding:25px;
+border-radius:18px;
 }
 
-.status-box{
-background:#eaf8ee;
-padding:15px;
-border-radius:10px;
-margin-bottom:20px;
+.status{
+background:#d4f5dc;
+color:#159447;
+padding:12px 18px;
+border-radius:30px;
+display:inline-block;
 font-weight:600;
+margin-bottom:20px;
 }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-bottom:25px;
+.track-code{
+font-size:34px;
+font-weight:700;
+margin-bottom:20px;
 }
 
-.card{
-background:#f8f8f8;
-padding:15px;
-border-radius:12px;
+.info-box{
+background:rgba(255,255,255,0.08);
+padding:20px;
+border-radius:15px;
+margin-bottom:18px;
 }
 
-.card h3{
-font-size:14px;
+.info-title{
+font-size:13px;
+opacity:0.7;
 margin-bottom:8px;
-color:#777;
 }
 
-.card p{
-font-size:17px;
+.info-value{
+font-size:22px;
 font-weight:500;
+line-height:1.5;
 }
 
 .timeline{
-margin-top:20px;
+margin-top:30px;
+}
+
+.timeline h2{
+margin-bottom:20px;
+font-size:28px;
 }
 
 .timeline-item{
 display:flex;
-gap:12px;
-margin-bottom:18px;
+gap:15px;
+margin-bottom:20px;
 align-items:flex-start;
 }
 
 .dot{
-width:14px;
-height:14px;
-background:#222;
+width:15px;
+height:15px;
+background:#efb7aa;
 border-radius:50%;
-margin-top:6px;
+margin-top:8px;
 }
 
-.timeline-item p{
-line-height:1.5;
+.timeline-text{
+line-height:1.7;
+font-size:17px;
 }
 
 @media(max-width:700px){
 
-.grid{
-grid-template-columns:1fr;
+h1{
+font-size:42px;
+}
+
+.description{
+font-size:18px;
 }
 
 .search-box{
@@ -143,7 +195,19 @@ width:100%;
 
 <div class="container">
 
-<h1>Track Your Shipment</h1>
+<img class="hero-image" src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=1200&auto=format&fit=crop" alt="Cargo Port">
+
+<div class="content">
+
+<div class="small-text">International Freight Forwarding</div>
+
+<h1>Monarch Freight Group</h1>
+
+<div class="line"></div>
+
+<div class="description">
+Track your shipment in real time with Monarch Freight Group global logistics and cargo tracking services.
+</div>
 
 <div class="search-box">
 <input type="text" id="trackingInput" placeholder="Enter tracking number">
@@ -152,48 +216,49 @@ width:100%;
 
 <div class="result" id="result">
 
-<div class="status-box">
-Tracking Code: <span id="trackCode"></span> —
-<span id="status"></span>
+<div class="track-code" id="trackCode"></div>
+
+<div class="status" id="status"></div>
+
+<div class="info-box">
+<div class="info-title">FROM</div>
+<div class="info-value" id="from"></div>
 </div>
 
-<div class="grid">
-
-<div class="card">
-<h3>FROM</h3>
-<p id="from"></p>
+<div class="info-box">
+<div class="info-title">TO</div>
+<div class="info-value" id="to"></div>
 </div>
 
-<div class="card">
-<h3>TO</h3>
-<p id="to"></p>
+<div class="info-box">
+<div class="info-title">WEIGHT</div>
+<div class="info-value" id="weight"></div>
 </div>
 
-<div class="card">
-<h3>WEIGHT</h3>
-<p id="weight"></p>
+<div class="info-box">
+<div class="info-title">PARCEL TYPE</div>
+<div class="info-value" id="parcel"></div>
 </div>
 
-<div class="card">
-<h3>PARCEL TYPE</h3>
-<p id="parcel"></p>
+<div class="info-box">
+<div class="info-title">COURIER</div>
+<div class="info-value" id="courier"></div>
 </div>
 
-<div class="card">
-<h3>COURIER</h3>
-<p id="courier"></p>
+<div class="info-box">
+<div class="info-title">ETA DATE</div>
+<div class="info-value" id="eta"></div>
 </div>
 
-<div class="card">
-<h3>ESTIMATED DELIVERY</h3>
-<p id="eta"></p>
-</div>
-
-</div>
+<div class="timeline">
 
 <h2>Shipment Timeline</h2>
 
-<div class="timeline" id="timeline"></div>
+<div id="timeline"></div>
+
+</div>
+
+</div>
 
 </div>
 
@@ -234,7 +299,7 @@ shipment.timeline.forEach(item => {
 timelineBox.innerHTML += `
 <div class="timeline-item">
 <div class="dot"></div>
-<p>${item}</p>
+<div class="timeline-text">${item}</div>
 </div>
 `;
 
