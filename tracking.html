@@ -330,7 +330,7 @@ timelineBox.innerHTML += `
 
 startCountdown(data.eta);
 
-loadMap(data.from,data.to,data.eta);
+loadMap(data.from,data.to);
 
 });
 
@@ -380,7 +380,7 @@ setInterval(updateCountdown,1000);
 
 }
 
-function loadMap(from,to,eta){
+function loadMap(from,to){
 
 if(map){
 map.remove();
@@ -462,7 +462,7 @@ let currentIndex = 0;
 function moveShipment(){
 
 if(currentIndex >= selectedRoute.length){
-return;
+currentIndex = 0;
 }
 
 marker.setLatLng(
