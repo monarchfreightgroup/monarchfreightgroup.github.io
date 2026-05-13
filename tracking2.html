@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Monarch Freight Tracking</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link
+rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#e9b7ae;
+padding:25px 15px;
+}
+
+.container{
+max-width:760px;
+margin:auto;
+background:#4a4a55;
+border-radius:35px;
+overflow:hidden;
+box-shadow:0 10px 35px rgba(0,0,0,0.35);
+color:white;
+}
+
+.hero img{
+width:100%;
+height:320px;
+object-fit:cover;
+}
+
+.content{
+padding:35px;
+}
+
+.small{
+font-size:18px;
+opacity:0.8;
+margin-bottom:15px;
+}
+
+h1{
+font-size:72px;
+line-height:1;
+margin-bottom:25px;
+font-weight:700;
+}
+
+.line{
+width:120px;
+height:8px;
+background:#e9b7ae;
+border-radius:20px;
+margin-bottom:30px;
+}
+
+.desc{
+font-size:21px;
+line-height:1.8;
+margin-bottom:35px;
+opacity:0.9;
+}
+
+input{
+width:100%;
+padding:22px;
+border:none;
+border-radius:16px;
+font-size:22px;
+margin-bottom:20px;
+outline:none;
+font-family:'Poppins',sans-serif;
+}
+
+button{
+width:100%;
+padding:22px;
+border:none;
+border-radius:16px;
+background:#d9a89e;
+color:white;
+font-size:24px;
+font-weight:700;
+cursor:pointer;
+}
+
+.result{
+display:none;
+margin-top:35px;
+background:#ffffff10;
+padding:25px;
+border-radius:25px;
+}
+
+.result h2{
+margin-bottom:25px;
+font-size:50px;
+}
+
+.info{
+margin-bottom:18px;
+font-size:20px;
+line-height:1.9;
+}
+
+.status-box{
+margin-top:25px;
+padding:20px;
+border-radius:15px;
+background:#0d6b1c;
+text-align:center;
+font-size:30px;
+font-weight:700;
+}
+
+.countdown{
+margin-top:30px;
+font-size:32px;
+font-weight:700;
+text-align:center;
+}
+
+.map-container{
+margin-top:35px;
+}
+
+#map{
+height:520px;
+width:100%;
+border-radius:25px;
+overflow:hidden;
+margin-top:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.35);
+}
+
+.timeline{
+margin-top:35px;
+}
+
+.timeline div{
+padding:18px;
+margin-bottom:14px;
+background:#ffffff10;
+border-radius:14px;
+font-size:18px;
+}
+
+@media(max-width:700px){
+
+h1{
+font-size:58px;
+}
+
+.hero img{
+height:260px;
+}
+
+#map{
+height:500px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="hero">
+<img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=1200&auto=format&fit=crop" alt="">
+</div>
+
+<div class="content">
+
+<div class="small">
+International Freight Forwarding
+</div>
+
+<h1>
+Monarch<br>
+Freight Group
+</h1>
+
+<div class="line"></div>
+
+<div class="desc">
+Track your shipment in real time with Monarch Freight Group global logistics and cargo tracking services.
+</div>
+
+<input
+type="text"
+id="trackingInput"
+placeholder="Enter tracking number"
+/>
+
+<button onclick="trackShipment()">
+TRACK
+</button>
+
+<div class="result" id="result">
+
+<h2 id="trackingTitle"></h2>
+
+<div class="info" id="shipmentInfo"></div>
+
+<div class="status-box" id="statusBox"></div>
+
+<div class="countdown" id="countdown"></div>
+
+<div class="map-container">
+<div id="map"></div>
+</div>
+
+<div class="timeline" id="timeline"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<script
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+getDocs,
+query,
+where
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyBEWibw3-cMhuOXvJVYt-omcx3TUuLnBwg",
+authDomain: "monarch-freight.firebaseapp.com",
+projectId: "monarch-freight",
+storageBucket: "monarch-freight.firebasestorage.app",
+messagingSenderId: "592212587562",
+appId: "1:592212587562:web:f46b6d3d4438ac55467f53"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+let map;
+let marker;
+
+window.trackShipment = async function(){
+
+const code =
+document.getElementById("trackingInput")
+.value
+.trim();
+
+const q = query(
+collection(db,"shipments"),
+where("trackingCode","==",code)
+);
+
+const querySnapshot = await getDocs(q);
+
+if(querySnapshot.empty){
+
+alert("Tracking number not found");
+
+return;
+
+}
+
+querySnapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+document.getElementById("result")
+.style.display = "block";
+
+document.getElementById("trackingTitle")
+.innerHTML = data.trackingCode;
+
+document.getElementById("shipmentInfo")
+.innerHTML = `
+<b>From:</b> ${data.from}<br><br>
+<b>To:</b> ${data.to}<br><br>
+<b>Weight:</b> ${data.weight}<br><br>
+<b>Parcel Type:</b> ${data.parcelType}<br><br>
+<b>Courier:</b> ${data.courier}<br><br>
+<b>ETA:</b> ${data.eta}
+`;
+
+document.getElementById("statusBox")
+.innerHTML = data.status;
+
+const timelineBox =
+document.getElementById("timeline");
+
+timelineBox.innerHTML = "";
+
+data.timeline.forEach((item)=>{
+
+timelineBox.innerHTML += `
+<div>${item}</div>
+`;
+
+});
+
+startCountdown(data.eta);
+
+loadMap(data.from,data.to);
+
+});
+
+};
+
+function startCountdown(eta){
+
+const countdown =
+document.getElementById("countdown");
+
+const etaDate = new Date(eta);
+
+function updateCountdown(){
+
+const now = new Date();
+
+const diff = etaDate - now;
+
+if(diff <= 0){
+
+countdown.innerHTML =
+"Shipment has arrived";
+
+return;
+
+}
+
+const days =
+Math.floor(diff / (1000*60*60*24));
+
+const hours =
+Math.floor(
+(diff % (1000*60*60*24))
+/
+(1000*60*60)
+);
+
+countdown.innerHTML =
+days + " Days " +
+hours + " Hours Remaining";
+
+}
+
+updateCountdown();
+
+setInterval(updateCountdown,1000);
+
+}
+
+function loadMap(from,to){
+
+if(map){
+map.remove();
+}
+
+map = L.map('map',{
+zoomControl:true
+}).setView([35,40],3);
+
+L.tileLayer(
+'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+{
+maxZoom:18,
+attribution:''
+}
+).addTo(map);
+
+setTimeout(()=>{
+map.invalidateSize();
+},500);
+
+const routes = {
+
+"USA-China":[
+[40.7128,-74.0060],
+[51.5072,-0.1276],
+[25.2048,55.2708],
+[1.3521,103.8198],
+[31.2304,121.4737]
+],
+
+"China-USA":[
+[31.2304,121.4737],
+[1.3521,103.8198],
+[25.2048,55.2708],
+[51.5072,-0.1276],
+[40.7128,-74.0060]
+]
+
+};
+
+let selectedRoute =
+routes["USA-China"];
+
+if(
+from.toLowerCase().includes("china")
+){
+selectedRoute =
+routes["China-USA"];
+}
+
+const planeIcon = L.icon({
+iconUrl:
+'https://cdn-icons-png.flaticon.com/512/34/34627.png',
+iconSize:[50,50]
+});
+
+marker =
+L.marker(
+selectedRoute[0],
+{icon:planeIcon}
+).addTo(map);
+
+const polyline = L.polyline(
+selectedRoute,
+{
+color:'gold',
+weight:6
+}
+).addTo(map);
+
+map.fitBounds(polyline.getBounds(),{
+padding:[20,20],
+maxZoom:4
+});
+
+let currentIndex = 0;
+
+function moveShipment(){
+
+if(currentIndex >= selectedRoute.length){
+currentIndex = 0;
+}
+
+marker.setLatLng(
+selectedRoute[currentIndex]
+);
+
+map.flyTo(
+selectedRoute[currentIndex],
+4,
+{
+animate:true,
+duration:2
+}
+);
+
+currentIndex++;
+
+}
+
+moveShipment();
+
+setInterval(moveShipment,4000);
+
+}
+
+</script>
+
+</body>
+
+</html>
