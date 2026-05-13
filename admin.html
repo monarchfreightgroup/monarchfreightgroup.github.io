@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Monarch Freight Admin</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -19,166 +19,83 @@ box-sizing:border-box;
 
 body{
 font-family:'Poppins',sans-serif;
-background:#071426;
-color:#fff;
+background:#071d49;
+padding:30px 15px;
+color:white;
 }
 
-.login-screen,
-.dashboard{
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-padding:20px;
-}
-
-.card{
-background:#102948;
-width:100%;
-max-width:520px;
+.container{
+max-width:750px;
+margin:auto;
+background:#102b63;
 padding:35px;
-border-radius:18px;
+border-radius:25px;
 box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
 
-.logo{
-font-size:32px;
-font-weight:700;
-margin-bottom:25px;
+h1{
 text-align:center;
-}
-
-.logo span{
-color:#d4a63a;
-}
-
-h2{
-margin-bottom:20px;
-text-align:center;
+font-size:50px;
+margin-bottom:35px;
 }
 
 input,
 textarea,
 select{
 width:100%;
-padding:16px;
-margin-bottom:15px;
+padding:20px;
+margin-bottom:20px;
 border:none;
-border-radius:10px;
-font-size:15px;
-font-family:'Poppins',sans-serif;
+border-radius:14px;
+font-size:18px;
 outline:none;
+font-family:'Poppins',sans-serif;
 }
 
 textarea{
-min-height:120px;
+height:140px;
 resize:none;
 }
 
 button{
 width:100%;
-padding:16px;
+padding:22px;
 border:none;
-border-radius:10px;
-background:#d4a63a;
-color:#111;
-font-size:16px;
+border-radius:15px;
+background:#d8a726;
+color:black;
+font-size:22px;
 font-weight:700;
 cursor:pointer;
-margin-top:10px;
-}
-
-button:hover{
-opacity:0.9;
-}
-
-.logout{
-background:#fff;
-margin-top:15px;
-}
-
-.shipment-list{
-margin-top:30px;
-}
-
-.shipment-item{
-background:#0b1f39;
-padding:18px;
-border-radius:12px;
-margin-bottom:15px;
-}
-
-.shipment-item h3{
-margin-bottom:10px;
-}
-
-.link-box{
-background:#071426;
-padding:12px;
-border-radius:8px;
-font-size:13px;
-word-break:break-all;
-margin-top:10px;
-}
-
-.hidden{
-display:none;
 }
 
 .success{
-margin-top:15px;
-background:#0e8b41;
-padding:14px;
-border-radius:10px;
-text-align:center;
+margin-top:25px;
+background:#1fb655;
+padding:18px;
+border-radius:12px;
 display:none;
+font-weight:600;
+text-align:center;
+}
+
+@media(max-width:700px){
+
+h1{
+font-size:40px;
+}
+
 }
 
 </style>
+
 </head>
 
 <body>
 
-<!-- LOGIN -->
+<div class="container">
 
-<div class="login-screen" id="loginScreen">
-
-<div class="card">
-
-<div class="logo">
-MONARCH <span>FREIGHT</span>
-</div>
-
-<h2>
-Admin Login
-</h2>
-
-<input
-type="password"
-id="adminPassword"
-placeholder="Enter Admin Password">
-
-<button onclick="login()">
-LOGIN
-</button>
-
-</div>
-
-</div>
-
-<!-- DASHBOARD -->
-
-<div class="dashboard hidden" id="dashboard">
-
-<div class="card">
-
-<div class="logo">
-MONARCH <span>FREIGHT</span>
-</div>
-
-<h2>
-Create Shipment
-</h2>
+<h1>Create Shipment</h1>
 
 <input type="text" id="trackingCode" placeholder="Tracking Code">
 
@@ -189,7 +106,6 @@ Create Shipment
 <select id="status">
 <option>In Transit</option>
 <option>Processing</option>
-<option>Held At Customs</option>
 <option>Out For Delivery</option>
 <option>Delivered</option>
 </select>
@@ -200,169 +116,94 @@ Create Shipment
 
 <input type="text" id="courier" placeholder="Courier">
 
-<input type="text" id="eta" placeholder="ETA Date">
+<input type="date" id="eta">
 
-<textarea
-id="timeline"
-placeholder="Timeline Updates (separate with commas)">
-</textarea>
+<textarea id="timeline" placeholder="Timeline Updates (separate with commas)"></textarea>
 
 <button onclick="saveShipment()">
 SAVE SHIPMENT
-</button>
-
-<button class="logout" onclick="logout()">
-LOGOUT
 </button>
 
 <div class="success" id="successBox">
 Shipment Saved Successfully
 </div>
 
-<div class="shipment-list" id="shipmentList">
-
 </div>
 
-</div>
+<script type="module">
 
-</div>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-<script>
+import {
+getFirestore,
+collection,
+addDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* PASSWORD */
-
-const ADMIN_PASSWORD = "monarchadmin";
-
-/* LOGIN */
-
-function login(){
-
-const password =
-document.getElementById("adminPassword").value;
-
-if(password === ADMIN_PASSWORD){
-
-document.getElementById("loginScreen")
-.classList.add("hidden");
-
-document.getElementById("dashboard")
-.classList.remove("hidden");
-
-loadShipments();
-
-}else{
-
-alert("Incorrect Password");
-
-}
-
-}
-
-/* LOGOUT */
-
-function logout(){
-
-location.reload();
-
-}
-
-/* SAVE SHIPMENT */
-
-function saveShipment(){
-
-const shipment = {
-
-trackingCode:
-document.getElementById("trackingCode").value,
-
-from:
-document.getElementById("from").value,
-
-to:
-document.getElementById("to").value,
-
-status:
-document.getElementById("status").value,
-
-weight:
-document.getElementById("weight").value,
-
-parcelType:
-document.getElementById("parcelType").value,
-
-courier:
-document.getElementById("courier").value,
-
-eta:
-document.getElementById("eta").value,
-
-timeline:
-document.getElementById("timeline").value
-
+const firebaseConfig = {
+apiKey: "AIzaSyBEWibw3-cMhuOXvJVYt-omcx3TUuLnBwg",
+authDomain: "monarch-freight.firebaseapp.com",
+projectId: "monarch-freight",
+storageBucket: "monarch-freight.firebasestorage.app",
+messagingSenderId: "592212587562",
+appId: "1:592212587562:web:f46b6d3d4438ac55467f53"
 };
 
-if(!shipment.trackingCode){
-alert("Tracking code required");
-return;
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+window.saveShipment = async function(){
+
+const trackingCode =
+document.getElementById("trackingCode").value;
+
+const from =
+document.getElementById("from").value;
+
+const to =
+document.getElementById("to").value;
+
+const status =
+document.getElementById("status").value;
+
+const weight =
+document.getElementById("weight").value;
+
+const parcelType =
+document.getElementById("parcelType").value;
+
+const courier =
+document.getElementById("courier").value;
+
+const eta =
+document.getElementById("eta").value;
+
+const timeline =
+document.getElementById("timeline")
+.value
+.split(",");
+
+await addDoc(
+collection(db,"shipments"),
+{
+trackingCode,
+from,
+to,
+status,
+weight,
+parcelType,
+courier,
+eta,
+timeline,
+createdAt:new Date()
 }
-
-let shipments =
-JSON.parse(localStorage.getItem("shipments")) || [];
-
-shipments.push(shipment);
-
-localStorage.setItem(
-"shipments",
-JSON.stringify(shipments)
 );
 
-document.getElementById("successBox").style.display =
-"block";
+document.getElementById("successBox")
+.style.display = "block";
 
-setTimeout(()=>{
-
-document.getElementById("successBox").style.display =
-"none";
-
-},3000);
-
-loadShipments();
-
-}
-
-/* LOAD SHIPMENTS */
-
-function loadShipments(){
-
-const shipmentList =
-document.getElementById("shipmentList");
-
-shipmentList.innerHTML = "";
-
-let shipments =
-JSON.parse(localStorage.getItem("shipments")) || [];
-
-shipments.reverse().forEach((shipment)=>{
-
-shipmentList.innerHTML += `
-
-<div class="shipment-item">
-
-<h3>${shipment.trackingCode}</h3>
-
-<p>Status: ${shipment.status}</p>
-
-<div class="link-box">
-https://monarchfreightgroup.github.io/tracking.html?code=${shipment.trackingCode}
-</div>
-
-</div>
-
-`;
-
-});
-
-}
+};
 
 </script>
 
