@@ -388,7 +388,7 @@ map.remove();
 
 map = L.map('map',{
 zoomControl:true
-}).setView([20,0],2);
+}).setView([35,40],3);
 
 L.tileLayer(
 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -435,7 +435,7 @@ routes["China-USA"];
 const planeIcon = L.icon({
 iconUrl:
 'https://cdn-icons-png.flaticon.com/512/34/34627.png',
-iconSize:[45,45]
+iconSize:[50,50]
 });
 
 marker =
@@ -453,7 +453,8 @@ weight:6
 ).addTo(map);
 
 map.fitBounds(polyline.getBounds(),{
-padding:[40,40]
+padding:[20,20],
+maxZoom:4
 });
 
 let currentIndex = 0;
@@ -468,8 +469,13 @@ marker.setLatLng(
 selectedRoute[currentIndex]
 );
 
-map.panTo(
-selectedRoute[currentIndex]
+map.flyTo(
+selectedRoute[currentIndex],
+4,
+{
+animate:true,
+duration:2
+}
 );
 
 currentIndex++;
